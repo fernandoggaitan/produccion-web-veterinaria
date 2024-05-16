@@ -12,7 +12,8 @@ class MascotaController extends Controller
      */
     public function index()
     {
-        //
+        $mascotas = Mascota::all();
+        return view('mascotas.index');   
     }
 
     /**
