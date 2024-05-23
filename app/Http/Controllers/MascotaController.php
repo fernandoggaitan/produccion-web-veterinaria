@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Mascota;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,12 @@ class MascotaController extends Controller
      */
     public function index()
     {
-        $mascotas = Mascota::all();
-        return view('mascotas.index');   
+        $mascotas = Mascota::select('id', 'nombre', 'fecha_nacimiento', 'categoria_id')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        return view('mascotas.index', [
+            'mascotas' => $mascotas
+        ]);
     }
 
     /**
@@ -21,7 +26,10 @@ class MascotaController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('mascotas.create', [
+            'categorias' => $categorias
+        ]);
     }
 
     /**
@@ -29,7 +37,16 @@ class MascotaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        Mascota::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'categoria_id' => $request->categoria_id
+        ]);
+
+        return redirect()->route('mascotas.index');
+
     }
 
     /**

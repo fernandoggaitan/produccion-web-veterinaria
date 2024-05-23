@@ -17,6 +17,16 @@ Route::get('/mascotas', [
     'index'
 ])->name('mascotas.index');
 
+Route::get('/mascotas/create', [
+    MascotaController::class,
+    'create'
+])->name('mascotas.create');
+
+Route::post('/mascotas', [
+    MascotaController::class,
+    'store'
+])->name('mascotas.store');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
