@@ -37,6 +37,13 @@ class MascotaController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'nombre' => 'required|min:3|max:100',
+            'descripcion' => 'required',
+            'fecha_nacimiento' => 'required|date|before:tomorrow',
+            'categoria_id' => 'required'
+        ]);
         
         Mascota::create([
             'nombre' => $request->nombre,
@@ -45,7 +52,9 @@ class MascotaController extends Controller
             'categoria_id' => $request->categoria_id
         ]);
 
-        return redirect()->route('mascotas.index');
+        return redirect()
+            ->route('mascotas.index')
+            ->with('status', 'El registro se ha agregado correctamente correctamente');;
 
     }
 
@@ -54,7 +63,9 @@ class MascotaController extends Controller
      */
     public function show(Mascota $mascota)
     {
-        //
+        return view('mascotas.show', [
+            'mascota' => $mascota
+        ]);
     }
 
     /**
@@ -62,7 +73,11 @@ class MascotaController extends Controller
      */
     public function edit(Mascota $mascota)
     {
-        //
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('mascotas.edit', [
+            'categorias' => $categorias,
+            'mascota' => $mascota
+        ]);
     }
 
     /**
@@ -70,7 +85,25 @@ class MascotaController extends Controller
      */
     public function update(Request $request, Mascota $mascota)
     {
-        //
+        
+        $request->validate([
+            'nombre' => 'required|min:3|max:100',
+            'descripcion' => 'required',
+            'fecha_nacimiento' => 'required|date|before:tomorrow',
+            'categoria_id' => 'required'
+        ]);
+
+        $mascota->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'categoria_id' => $request->categoria_id
+        ]);
+
+        return redirect()
+            ->route('mascotas.index')
+            ->with('status', 'El registro se ha modificado correctamente');
+
     }
 
     /**

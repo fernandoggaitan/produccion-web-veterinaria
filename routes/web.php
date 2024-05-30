@@ -27,6 +27,21 @@ Route::post('/mascotas', [
     'store'
 ])->name('mascotas.store');
 
+Route::get('/mascotas/{mascota}', [
+    MascotaController::class,
+    'show'
+])->name('mascotas.show');
+
+Route::get('/mascotas/{mascota}/edit', [
+    MascotaController::class,
+    'edit'
+])->name('mascotas.edit');
+
+Route::put('/mascotas/{mascota}', [
+    MascotaController::class,
+    'update'
+])->name('mascotas.update');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

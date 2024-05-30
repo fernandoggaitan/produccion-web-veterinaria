@@ -2,6 +2,10 @@
 
     <x-h1> Lista de mascotas </x-h1>
 
+    @if (Session('status'))
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"> {{ Session('status') }} </div>
+    @endif
+
     <div class="my-3">
         <x-btn-primary :href="route('mascotas.create')"> Agregar mascota </x-btn-primary>
     </div>
@@ -39,7 +43,7 @@
                             {{ $mascota->categoria->nombre }}
                         </td>
                         <td class="px-6 py-4">
-                            <x-btn-primary href=""> Gestionar mascota </x-btn-primary>
+                            <x-btn-primary href="{{ route('mascotas.show', $mascota) }}"> Gestionar mascota </x-btn-primary>
                         </td>
                     </tr>
                 @endforeach
