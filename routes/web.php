@@ -12,6 +12,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::resource('/mascotas', MascotaController::class);
+
+/*
 Route::get('/mascotas', [
     MascotaController::class,
     'index'
@@ -46,6 +50,7 @@ Route::delete('/mascotas/{mascota}', [
     MascotaController::class,
     'destroy'
 ])->name('mascotas.destroy');
+*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
