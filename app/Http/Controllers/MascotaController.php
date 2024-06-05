@@ -14,6 +14,7 @@ class MascotaController extends Controller
     public function index()
     {
         $mascotas = Mascota::select('id', 'nombre', 'fecha_nacimiento', 'categoria_id')
+            ->where('is_visible', true)
             ->orderBy('id', 'desc')
             ->paginate(10);
         return view('mascotas.index', [
@@ -111,6 +112,15 @@ class MascotaController extends Controller
      */
     public function destroy(Mascota $mascota)
     {
-        //
+        //$mascota->delete();
+
+        $mascota->update([
+            'is_visible' => false
+        ]);
+
+        return redirect()
+            ->route('mascotas.index')
+            ->with('status', 'El registro se ha eliminado correctamente');
+
     }
 }
