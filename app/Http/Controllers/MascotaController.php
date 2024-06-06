@@ -43,16 +43,21 @@ class MascotaController extends Controller
             'nombre' => 'required|min:3|max:100',
             'descripcion' => 'required',
             'fecha_nacimiento' => 'required|date|before:tomorrow',
-            'categoria_id' => 'required'
+            'categoria_id' => 'required',
+            'imagen' => 'required|mimes:jpg,png'
         ]);
+
+        $imagen_nombre = time() . $request->file('imagen')->getClientOriginalName();
+        $imagen = $request->file('imagen')->storeAs('mascotas', $imagen_nombre, 'public');
         
         Mascota::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'fecha_nacimiento' => $request->fecha_nacimiento,
-            'categoria_id' => $request->categoria_id
+            'categoria_id' => $request->categoria_id,
+            'imagen' => $imagen
         ]);
-
+ 
         return redirect()
             ->route('mascotas.index')
             ->with('status', 'El registro se ha agregado correctamente correctamente');;

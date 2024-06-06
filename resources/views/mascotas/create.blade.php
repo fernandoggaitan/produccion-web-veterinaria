@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form class="mx-auto" action="{{ route('mascotas.store') }}" method="POST">
+    <form class="mx-auto" action="{{ route('mascotas.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-5 group">
             <div class="mb-5">
@@ -40,6 +40,10 @@
         <div class="mb-5 group">
             <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Descripción </label>
             <textarea name="descripcion" id="descripcion" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Características de la mascota">{{ old('descripcion') }}</textarea>
+        </div>
+        <div class="mb-5 group">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imagen"> Imagen </label>
+            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="imagen" id="imagen" type="file">
         </div>
         <div>
             <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"> Agregar mascota </button>

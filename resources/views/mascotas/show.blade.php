@@ -2,6 +2,8 @@
 
     <x-h1> {{ $mascota->nombre }} </x-h1>
 
+    <img src="{{ asset('storage/' . $mascota->imagen) }}" alt="{{ $mascota->nombre }}" class="max-w-36" />
+
     <div class="mb-3">
         {{ $mascota->descripcion }}
     </div>
