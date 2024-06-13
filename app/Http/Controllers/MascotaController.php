@@ -60,7 +60,7 @@ class MascotaController extends Controller
  
         return redirect()
             ->route('mascotas.index')
-            ->with('status', 'El registro se ha agregado correctamente correctamente');;
+            ->with('status', __('pets.status.store'));
 
     }
 
@@ -108,7 +108,7 @@ class MascotaController extends Controller
 
         return redirect()
             ->route('mascotas.index')
-            ->with('status', 'El registro se ha modificado correctamente');
+            ->with('status', __('pets.status.update'));
 
     }
 
@@ -125,7 +125,7 @@ class MascotaController extends Controller
 
         return redirect()
             ->route('mascotas.index')
-            ->with('status', 'El registro se ha eliminado correctamente');
+            ->with('status', __('pets.status.destroy'));
 
     }
 }
