@@ -2,6 +2,10 @@
 
     <x-h1> Servicios </x-h1>
 
+    @if (Session('status'))
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"> {{ Session('status') }} </div>
+    @endif
+
     <div class="mb-5">
         <x-btn-primary href="{{ route('cart.index') }}">
             Ver carrito
@@ -19,10 +23,19 @@
                     <h2 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3">
                         {{ $servicio->nombre }}
                     </h2>
-                    <x-btn-primary href="#">                        
-                        Agregar
-                        ${{ $servicio->precio_format() }}
-                    </x-btn-primary>
+                    @isset($cart[$servicio->id])
+                        <a href="{{ route('cart.index') }}"> Item agregado / Ver carrito </a>
+                    @else
+                        <form action="{{ route('cart.update', $servicio->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="cantidad" value="1" />
+                            <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                Agregar
+                                ${{ $servicio->precio_format() }}
+                            </button>
+                        </form>
+                    @endisset                    
                 </div>
             </div>
         @endforeach

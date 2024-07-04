@@ -18,7 +18,10 @@ Route::get('/servicios_catalogo', [
 ])->name('servicios_catalogo.index');
 
 Route::resource('/cart', CartController::class)->except(['create', 'store', 'show', 'edit']);
-
+Route::get('/cart/clear', [
+    CartController::class,
+    'clear'
+])->name('cart.clear');
 
 Route::get('/greeting/{locale}', [
     LangController::class,

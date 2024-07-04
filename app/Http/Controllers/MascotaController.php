@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\Mascota;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class MascotaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        //Filtro para buscar mascotas
+        $buscador = $request->buscador;
         $mascotas = Mascota::select('id', 'nombre', 'fecha_nacimiento', 'categoria_id')
+            ->when($buscador, function(Builder $builder, $buscador){
+                $builder->where('nombre', 'like', "%{$buscador}%");
+            })
             ->where('is_visible', true)
             ->orderBy('id', 'desc')
             ->paginate(10);
         return view('mascotas.index', [
-            'mascotas' => $mascotas
+            'mascotas' => $mascotas,
+            'buscador' => $buscador
         ]);
     }
 
@@ -50,7 +57,7 @@ class MascotaController extends Controller
         $imagen_nombre = time() . $request->file('imagen')->getClientOriginalName();
         $imagen = $request->file('imagen')->storeAs('mascotas', $imagen_nombre, 'public');
         
-        Mascota::create([
+        $mascota = Mascota::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'fecha_nacimiento' => $request->fecha_nacimiento,
